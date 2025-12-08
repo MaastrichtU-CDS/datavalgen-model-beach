@@ -1,0 +1,27 @@
+[project]
+name = "datavalgen-model-beach"
+version = "0.1.0"
+description = "BEACH data models and factory to use with datavalgen."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "datavalgen>=0.1.0"
+]
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# datavalgen contract: entrypoints for models and factories and homepage url
+[project.entry-points."datavalgen.models"]
+beach_lung = "datavalgen_model_beach.model:DataModel"
+[project.entry-points."datavalgen.factories"]
+beach_lung = "datavalgen_model_beach.factory:DataModelFactory"
+[project.urls]
+Homepage = "https://github.com/MaastrichtU-CDS/datavalgen-model-beach"
