@@ -1,6 +1,6 @@
 [project]
 name = "datavalgen-model-beach"
-version = "0.1.0"
+version = "0.1.1"
 description = "BEACH data models and factory to use with datavalgen."
 readme = "README.md"
 requires-python = ">=3.13"

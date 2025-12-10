@@ -4,12 +4,13 @@ from pydantic import Field
 
 
 class DataModel(BaseModel):
-    # any de-identified research ID
+    # any de-identified ID
     patient_identifier: str = Field(
         ...,
-        description="De-identified research ID (must not be a real / directly identifiable ID)",
+        description="De-identified (research) ID (must not be a real / directly identifiable ID)",
     )
 
+    # TODO: We are not accepting NAs for now, but should we? Perhaps agree on a string like "NA"?
     # TNM staging
     # T stage
     patient_t_stage: Literal["Tx", "T1a", "T1b", "T1c", "T2a", "T2b", "T3", "T4"] = (
@@ -44,7 +45,7 @@ class DataModel(BaseModel):
     # only the year, e.g. 1995
     year_of_diagnosis: int = Field(
         ...,
-        # TODO: these cutoff years are arbitrary, which numbers make sense?
+        # TODO: these cutoff years just placeholders, which numbers make sense?
         ge=1890,
         le=2027,
         description="Calendar year of diagnosis (e.g. 1995)",
@@ -65,8 +66,7 @@ class DataModel(BaseModel):
     centre: str = Field(
         ...,
         min_length=1,
-        max_length=128,
-        description="Name of treating/recording center",
+        description="Name of center",
     )
 
     # days from birth to diagnosis
@@ -77,7 +77,6 @@ class DataModel(BaseModel):
     ] = Field(
         ...,
         description=(
-            "Age at diagnosis in days (diagnosis date minus birthdate, "
-            "reasonable range 0-120 years). Use 'NA' if unknown or not available."
+            "Time interval from birthdate to date of diagnosis in integer number of days"
         ),
     )
