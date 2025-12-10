@@ -26,7 +26,7 @@ You can validate with something like:
 $ docker run \
   --network none --rm --read-only --cap-drop=ALL --security-opt no-new-privileges=true --log-driver=none --user $(id -u):$(id -g) \
   -v ./data/tiny.csv:/data.csv:ro \
-  ghcr.io/maastrichtu-cds/datavalgen-model-beach:v0.1.0
+  ghcr.io/maastrichtu-cds/datavalgen-model-beach:put_version_here \
   validate
 ✅ No validation errors found.
 ```
@@ -39,7 +39,13 @@ $ docker run \
 > not to store container logs (you still see output in your terminal). This image
 > is not expected to need any of those capabilities, so these flags are simply
 > defense in depth, especially when you use real, private datasets. Please use them!
+> And don't forget `:ro` either – validation will never need to modify your dataset.
 
+> [!NOTE]
+> You have to replace `put_version_here` with the actual version of the
+> `datavalgen-model-beach` image you want to use. You can find the latest version
+> [here](https://github.com/MaastrichtU-CDS/datavalgen-model-beach/pkgs/container/datavalgen-model-beach).
+> (e.g. `ghcr.io/maastrichtu-cds/datavalgen-model-beach:v0.1.1`)
 
 If there are errors, you will see output like this:
 ```
@@ -59,3 +65,27 @@ $ docker run \
 > Note that "❌ Line 2" refers to the second line on the file itself, as you
 > might see it in a simple editor. Line 1 would be the header, and line 2 would be
 > the first row of data.
+
+## Generating simple fake data
+```
+$ mkdir fakedata
+$ docker run \
+  --network none --rm --read-only --cap-drop=ALL --security-opt no-new-privileges=true --log-driver=none --user $(id -u):$(id -g)  \
+  -v ./fakedata/:/data/ \
+  ghcr.io/maastrichtu-cds/datavalgen-model-beach:v0.1.1 \
+  generate -o fakebeach.csv
+Changing ownership of output file to match data directory: /data (1000:1000)
+Generated 10 rows to /data/fakebeach.csv in csv format.
+$ wc -l fakedata/fakebeach.csv    # count rows + header
+11 fakedata/fakebeach.csv
+```
+
+To validate it,
+```
+$ docker run \
+  --network none --rm --read-only --cap-drop=ALL --security-opt no-new-privileges=true --log-driver=none --user $(id -u):$(id -g) \
+  -v ./fakedata/fakebeach.csv:/data.csv:ro \
+  ghcr.io/maastrichtu-cds/datavalgen-model-beach:v0.1.1 \
+  validate
+✅ No validation errors found.
+```
