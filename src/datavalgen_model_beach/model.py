@@ -24,10 +24,10 @@ class DataModel(BaseModel):
         ..., description="M stage"
     )
 
-    # TODO: some more description here?
+    # See: https://www.cancer.org/cancer/types/lung-cancer/detection-diagnosis-staging/staging-nsclc.html
     patient_overall_stage: Literal[
-        "x",
-        "0",
+        "x",       # hidden (occult) cancer
+        "0",       # stage 0
         "I",
         "IA1",
         "IA2",
