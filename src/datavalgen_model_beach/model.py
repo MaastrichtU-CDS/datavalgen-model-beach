@@ -10,10 +10,9 @@ class DataModel(BaseModel):
         description="De-identified (research) ID (must not be a real / directly identifiable ID)",
     )
 
-    # TODO: We are not accepting NAs for now, but should we? Perhaps agree on a string like "NA"?
     # TNM staging
     # T stage
-    patient_t_stage: Literal["Tx", "T1a", "T1b", "T1c", "T2a", "T2b", "T3", "T4"] = (
+    patient_t_stage: Literal["Tx", "T1", "T1a", "T1b", "T1c", "T2", "T2a", "T2b", "T3", "T4"] = (
         Field(..., description="T stage")
     )
     # N stage
@@ -21,7 +20,7 @@ class DataModel(BaseModel):
         ..., description="N stage"
     )
     # M stage
-    patient_m_stage: Literal["Mx", "M0", "M1a", "M1b", "M1c"] = Field(
+    patient_m_stage: Literal["Mx", "M0", "M1", "M1a", "M1b", "M1c"] = Field(
         ..., description="M stage"
     )
 
@@ -29,15 +28,19 @@ class DataModel(BaseModel):
     patient_overall_stage: Literal[
         "x",
         "0",
+        "I",
         "IA1",
         "IA2",
         "IA3",
         "IB",
+        "II",
         "IIA",
         "IIB",
+        "III",
         "IIIA",
         "IIIB",
         "IIIC",
+        "IV",
         "IVA",
         "IVB",
     ] = Field(..., description="Overall stage")
@@ -45,9 +48,10 @@ class DataModel(BaseModel):
     # only the year, e.g. 1995
     year_of_diagnosis: int = Field(
         ...,
-        # TODO: these cutoff years just placeholders, which numbers make sense?
-        ge=1890,
-        le=2027,
+        # We don't have any cut-off dates at the moment, so just any
+        # sensible-enough year here.
+        ge=1800,
+        le=2050,
         description="Calendar year of diagnosis (e.g. 1995)",
     )
 
@@ -72,7 +76,10 @@ class DataModel(BaseModel):
     # days from birth to diagnosis
     # Union: either an annotated int, or the literal string "NA"
     age_at_diagnosis: Union[
-        Annotated[int, Field(..., ge=0, le=120 * 365)],
+        # We want to be sure that they are least 18 yo, hence '+ 5' to account
+        # for leap years (technically 18*365+4 could be a valid 18 yo, but I
+        # guess we'd rather ensure '=> 18 yo')
+        Annotated[int, Field(..., ge=18*365+5, le=130 * 365)],
         Literal["NA"]
     ] = Field(
         ...,
