@@ -1,0 +1,105 @@
+{
+  "input_csv": "../datavalgen-model-beach/data/202604_synthetic/synthetic_beach_signal_full.csv",
+  "output_csv": "../datavalgen-model-beach/data/202604_synthetic/synthetic_beach_signal_full.csv",
+  "rows": 2000,
+  "centres_source": "../datavalgen-model-beach/src/datavalgen_model_beach/model.py",
+  "centres_used": [
+    "isala",
+    "maastricht",
+    "nki",
+    "radboudumc",
+    "suining",
+    "uhn",
+    "umcg"
+  ],
+  "days_per_year": 365.0,
+  "max_followup_years": 15.0,
+  "max_followup_days": 5475,
+  "target_median_days": 730.0,
+  "interval_before": {
+    "min": 54.0,
+    "p50": 730.0,
+    "p95": 2708.2,
+    "max": 5475.0
+  },
+  "interval_after": {
+    "min": 54.0,
+    "p50": 730.0,
+    "p95": 2708.2,
+    "max": 5475.0
+  },
+  "age_at_diagnosis_before": {
+    "min": 14600.0,
+    "p50": 24090.0,
+    "p95": 32120.0,
+    "max": 32850.0
+  },
+  "age_at_diagnosis_after": {
+    "min": 14600.0,
+    "p50": 24090.0,
+    "p95": 32120.0,
+    "max": 32850.0
+  },
+  "interval_after_by_vital_status": {
+    "alive": {
+      "count": 344.0,
+      "min": 138.0,
+      "p50": 1922.0,
+      "p95": 4669.599999999999,
+      "max": 5475.0
+    },
+    "dead": {
+      "count": 1656.0,
+      "min": 54.0,
+      "p50": 634.5,
+      "p95": 1764.25,
+      "max": 5460.0
+    }
+  },
+  "realism_checks": {
+    "alive_prop_le_2y": 0.0225,
+    "alive_prop_gt_2y": 0.1495,
+    "dead_prop_le_2y": 0.478,
+    "dead_prop_gt_2y": 0.35
+  },
+  "centre_counts": {
+    "radboudumc": 286,
+    "nki": 286,
+    "isala": 286,
+    "maastricht": 286,
+    "suining": 286,
+    "uhn": 285,
+    "umcg": 285
+  },
+  "split_files": [
+    "splits_by_centre/isala.csv",
+    "splits_by_centre/maastricht.csv",
+    "splits_by_centre/nki.csv",
+    "splits_by_centre/radboudumc.csv",
+    "splits_by_centre/suining.csv",
+    "splits_by_centre/uhn.csv",
+    "splits_by_centre/umcg.csv"
+  ],
+  "centralized_signal": {
+    "train_auc": 0.9495408272658914,
+    "val_auc": 0.9360156862745097,
+    "train_count": 1500,
+    "val_count": 500,
+    "alive_prevalence": 0.172
+  },
+  "mock_signal": {
+    "organizations": 7,
+    "task_id": 1,
+    "global_auc": 0.930135132288507,
+    "patient_counts": [
+      199,
+      212,
+      222,
+      219,
+      219,
+      214,
+      215
+    ],
+    "coefficients_len": 40
+  }
+}
