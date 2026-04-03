@@ -66,10 +66,17 @@ class DataModel(BaseModel):
 
     vital_status: Literal["alive", "dead"] = Field(..., description="Vital status")
 
-    # free-text center name
-    centre: str = Field(
+    # categorical center name
+    centre: Literal[
+        "isala",
+        "maastricht",
+        "nki",
+        "radboudumc",
+        "suining",
+        "uhn", 
+        "umcg",
+    ] = Field(
         ...,
-        min_length=1,
         description="Name of center",
     )
 
